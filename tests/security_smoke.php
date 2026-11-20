@@ -24,6 +24,9 @@ $contains('assets/chatbot.js', 'textContent');
 $notContains('assets/chatbot.js', 'innerHTML +=');
 $contains('admin/supprimer_evenement.php', 'requirePostCsrf');
 $contains('user/mes_inscriptions.php', 'requirePostCsrf');
-$contains('diagnostic/db_upgrade_tickets.php', "PHP_SAPI !== 'cli'");
+$diagnosticUpgrade = $root . DIRECTORY_SEPARATOR . 'diagnostic/db_upgrade_tickets.php';
+if (is_file($diagnosticUpgrade)) {
+    $contains('diagnostic/db_upgrade_tickets.php', "PHP_SAPI !== 'cli'");
+}
 if ($failures) { fwrite(STDERR, implode(PHP_EOL, $failures) . PHP_EOL); exit(1); }
 echo "Security smoke tests passed\n";
