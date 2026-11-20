@@ -1,5 +1,7 @@
 /vendor/
 /.env
+/.env.keycloak
+/composer.phar
 /config/.env
 /storage/
 /assets/tickets/*

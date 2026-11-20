@@ -12,7 +12,7 @@ define('APP_NAME', 'Gestion des Événements');
  * - http://localhost/gestion_evenements
  * - https://monsite.ma/gestion_evenements
  */
-define('APP_URL', 'http://localhost/gestion_evenements');
+define('APP_URL', rtrim((string) (getenv('EVENTSECURE_BASE_URL') ?: 'http://localhost/gestion_evenements'), '/'));
 
 define('APP_CONTACT_EMAIL', 'contact@evenements.com');
 define('APP_CONTACT_PHONE', '+212 6 00 00 00 00');

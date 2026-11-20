@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/classes/Security.php'; Security::startSession();
+require_once __DIR__ . '/classes/Security.php';
+require_once __DIR__ . '/config/IamConfig.php';
+Security::startSession();
 if (isset($_SESSION['user_id'])) { header('Location: /gestion_evenements/'); exit; }
+if (!IamConfig::localLoginEnabled()) { header('Location: /gestion_evenements/login.php'); exit; }
 require_once __DIR__ . '/classes/User.php'; $error=''; $success='';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  if (!Security::verifyCsrf()) { $error='Votre session a expiré. Veuillez réessayer.'; }

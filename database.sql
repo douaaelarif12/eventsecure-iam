@@ -13,8 +13,12 @@ CREATE TABLE IF NOT EXISTS users (
   telephone VARCHAR(30) DEFAULT NULL,
   adresse VARCHAR(255) DEFAULT NULL,
   role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
+  oidc_subject VARCHAR(255) DEFAULT NULL,
+  identity_provider VARCHAR(50) DEFAULT NULL,
+  last_login_at DATETIME DEFAULT NULL,
   date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_users_oidc_identity (identity_provider, oidc_subject)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS categories (

@@ -28,5 +28,10 @@ $diagnosticUpgrade = $root . DIRECTORY_SEPARATOR . 'diagnostic/db_upgrade_ticket
 if (is_file($diagnosticUpgrade)) {
     $contains('diagnostic/db_upgrade_tickets.php', "PHP_SAPI !== 'cli'");
 }
+$contains('scripts/migrate_oidc.php', "PHP_SAPI !== 'cli'");
+$contains('scripts/generate_keycloak_env.php', "PHP_SAPI !== 'cli'");
+$contains('services/OidcService.php', "setCodeChallengeMethod('S256')");
+$contains('classes/User.php', "empty(\$identity['email_verified'])");
+$contains('auth/keycloak.php', 'Security::establishIdentity');
 if ($failures) { fwrite(STDERR, implode(PHP_EOL, $failures) . PHP_EOL); exit(1); }
 echo "Security smoke tests passed\n";

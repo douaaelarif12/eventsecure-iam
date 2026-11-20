@@ -1,0 +1,116 @@
+{
+  "realm": "eventsecure",
+  "displayName": "EventSecure IAM",
+  "enabled": true,
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": true,
+  "verifyEmail": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "failureFactor": 5,
+  "waitIncrementSeconds": 60,
+  "maxFailureWaitSeconds": 900,
+  "maxDeltaTimeSeconds": 43200,
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA256",
+  "otpPolicyDigits": 6,
+  "otpPolicyPeriod": 30,
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Accès utilisateur à EventSecure"
+      },
+      {
+        "name": "admin",
+        "description": "Administration des événements EventSecure"
+      }
+    ]
+  },
+  "defaultRoles": ["user"],
+  "requiredActions": [
+    {
+      "alias": "CONFIGURE_TOTP",
+      "name": "Configure OTP",
+      "providerId": "CONFIGURE_TOTP",
+      "enabled": true,
+      "defaultAction": true,
+      "priority": 10,
+      "config": {}
+    },
+    {
+      "alias": "UPDATE_PASSWORD",
+      "name": "Update Password",
+      "providerId": "UPDATE_PASSWORD",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 30,
+      "config": {}
+    },
+    {
+      "alias": "UPDATE_PROFILE",
+      "name": "Update Profile",
+      "providerId": "UPDATE_PROFILE",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 40,
+      "config": {}
+    },
+    {
+      "alias": "VERIFY_EMAIL",
+      "name": "Verify Email",
+      "providerId": "VERIFY_EMAIL",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 50,
+      "config": {}
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "eventsecure-web",
+      "name": "EventSecure PHP",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "frontchannelLogout": true,
+      "redirectUris": [
+        "http://localhost/gestion_evenements/auth/keycloak.php",
+        "http://127.0.0.1/gestion_evenements/auth/keycloak.php"
+      ],
+      "webOrigins": [
+        "http://localhost",
+        "http://127.0.0.1"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost/gestion_evenements/*##http://127.0.0.1/gestion_evenements/*"
+      },
+      "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
+      "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"],
+      "protocolMappers": [
+        {
+          "name": "realm roles in ID token",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ]
+}

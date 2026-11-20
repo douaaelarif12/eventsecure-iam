@@ -31,6 +31,24 @@ final class Security
         session_regenerate_id(true);
     }
 
+    public static function establishIdentity(array $user, string $authMethod = 'local', array $context = []): void
+    {
+        self::regenerateSession();
+        $_SESSION['user_id'] = (int) $user['id'];
+        $_SESSION['nom'] = (string) $user['nom'];
+        $_SESSION['prenom'] = (string) $user['prenom'];
+        $_SESSION['email'] = (string) $user['email'];
+        $_SESSION['role'] = (string) $user['role'];
+        $_SESSION['auth_method'] = $authMethod;
+        $_SESSION['authenticated_at'] = time();
+
+        foreach ($context as $key => $value) {
+            if (is_string($key) && str_starts_with($key, 'oidc_') && is_string($value)) {
+                $_SESSION[$key] = $value;
+            }
+        }
+    }
+
     public static function destroySession(): void
     {
         self::startSession();
