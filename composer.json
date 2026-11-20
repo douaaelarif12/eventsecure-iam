@@ -1,0 +1,10 @@
+{
+  "name": "douaaelarif12/eventsecure-iam",
+  "description": "Secure PHP event management platform with role-based access, maps, calendars, notifications and QR-code tickets.",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "setasign/fpdf": "^1.8",
+    "endroid/qr-code": "^6.0"
+  }
+}
